@@ -1,5 +1,5 @@
 var scene, camera, renderer, mesh;
-var meshFloor, ambientLight, light, meshCeiling, meshLeft, meshRighgt;
+var meshFloor, ambientLight, light;
 var crate, crateTexture, crateNormalMap, crateBumpMap;
 
 var keyboard = {};
@@ -9,13 +9,13 @@ var USE_WIREFRAME = false;
 function init() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(
-    40,
+    75,
     window.innerWidth / window.innerHeight,
-    1,
-    2000
+    0.1,
+    1000
   );
   // camera
-  camera.position.set(100, 10, 300);
+  camera.position.set(100, 800, 20000);
   mesh = new THREE.Mesh();
   mesh.position.y += 1;
   mesh.receiveShadow = true;
@@ -32,7 +32,7 @@ function init() {
   meshFloor.rotation.x -= Math.PI / 2;
   meshFloor.receiveShadow = true;
   scene.add(meshFloor);
-  ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  ambientLight = new THREE.AmbientLight(0xffffff, 1);
   scene.add(ambientLight);
 
   light = new THREE.PointLight(0xffffff, 0.8, 18);
@@ -50,12 +50,12 @@ function init() {
 
   // Model/material loading!
   var mtlLoader = new THREE.MTLLoader();
-  mtlLoader.load("models/ModernHouse.mtl", function (materials) {
+  mtlLoader.load("models/Apartment.mtl", function (materials) {
     materials.preload();
     var objLoader = new THREE.OBJLoader();
     objLoader.setMaterials(materials);
 
-    objLoader.load("models/ModernHouse.obj", function (mesh) {
+    objLoader.load("models/Apartment.obj", function (mesh) {
       mesh.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
           node.castShadow = true;
